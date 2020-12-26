@@ -82,6 +82,12 @@ const ProjectAlert = ({
   }
 
   const handleButtonClick = () => {
+    const newMail = (document.getElementById('mailInput') as HTMLInputElement).value;
+    const emailRule = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+    if(!emailRule.test(newMail)) {            
+                alert("이메일 형식이 맞지 않습니다.");
+                return ;
+    }
     const newText = document.createElement('p');
     newText.textContent = (document.getElementById(
       'mailInput',
@@ -114,8 +120,6 @@ const ProjectAlert = ({
       ],
       { duration: 30000, iterations: Infinity },
     );
-    const newMail = (document.getElementById('mailInput') as HTMLInputElement)
-      .value;
     setMails([...alertMails, newMail]);
     (document.getElementById('mailInput') as HTMLInputElement).value = '';
     newText.className = classes.emailText;
@@ -193,8 +197,9 @@ const ProjectAlert = ({
                   value={alertLevel}
                   onChange={handleLevelChange}
                   label="ErrorLevel"
+                  disabled={alertSetting === '거부'}
                 >
-                  <MenuItem value={'fatal'}>fatal</MenuItem>
+                  <MenuItem value={'fatal'} selected>fatal</MenuItem>
                   <MenuItem value={'critical'}>critical</MenuItem>
                   <MenuItem value={'error'}>error</MenuItem>
                   <MenuItem value={'warning'}>warning</MenuItem>
